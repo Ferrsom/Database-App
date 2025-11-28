@@ -15,3 +15,5 @@ Basic error handling
 C# / .NET
 
 Windows Forms
+
+"MySql.Data.MySqlClient" Library
