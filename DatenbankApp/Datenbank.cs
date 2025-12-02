@@ -1,6 +1,7 @@
 ﻿using MySql.Data.MySqlClient;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 
@@ -20,7 +21,7 @@ namespace DatenbankApp
         }
 
 
-        //Mitarbeiter funktionen
+        //Mitarbeiter
 
         public void delMitarbeiter(int whichNo)
         {
@@ -57,19 +58,21 @@ namespace DatenbankApp
                 
                 MySqlCommand cmd = conn.CreateCommand(); //if this were to be used by finally, needs to be outside the try and inside the method
 
+                string str = ma.MaAbtNr1 == 0 ? "null" : ma.MaAbtNr1.ToString(); //so kann man auch ohne Abteilung speichern und ändern
+
                 if (ma.MaNr1 == 0)
                 {
                     cmd.CommandText = string.Format("INSERT INTO mitarbeiter " +
-                                                    "VALUES( NULL, '{0}', '{1}', NULL);", //paremeter zählen ab null
-                                                    ma.MaName1, ma.MaVorname1);
+                                                    "VALUES( NULL, '{0}', '{1}', {2});", //paremeter zählen ab null
+                                                    ma.MaName1, ma.MaVorname1, str);
                     
                 }
                 else
                 {
                     cmd.CommandText = string.Format("UPDATE mitarbeiter " +
-                                                    "SET maName = '{0}', mavorname = '{1}' " +
+                                                    "SET maName = '{0}', mavorname = '{1}', maabtnr = {3} " +
                                                     "WHERE maNr = '{2}';",
-                                                    ma.MaName1, ma.MaVorname1, ma.MaNr1);
+                                                    ma.MaName1, ma.MaVorname1, ma.MaNr1, str);
                 }
                 cmd.ExecuteNonQuery(); //keine anfrage, nur command schicken
             }
@@ -131,7 +134,7 @@ namespace DatenbankApp
             return liMa;
         }
 
-        //Abteilungs Funktionen
+        //Abteilung
 
         public void delAbteilung(int whichNo)
         {
@@ -237,5 +240,224 @@ namespace DatenbankApp
             return liAb;
         }
 
+        //Projekt
+
+        public void delProjekt(int whichNo)
+        {
+            try
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = string.Format("DELETE FROM projekt " +
+                                                "WHERE projNr = {0};", whichNo);
+
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("delProjekt " + ex.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public void saveProjekt(Projekt pr)
+        {
+
+            try
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+
+                if (pr.ProjNr1 == 0)
+                {
+                    cmd.CommandText = string.Format("INSERT INTO projekt " +
+                                                    "VALUES( NULL, '{0}');",
+                                                    pr.ProjName1);
+
+                }
+                else
+                {
+                    cmd.CommandText = string.Format("UPDATE projekt " +
+                                                    "SET projName = '{0}'" +
+                                                    "WHERE projNr = '{1}';",
+                                                    pr.ProjName1, pr.ProjNr1);
+                }
+                cmd.ExecuteNonQuery();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("saveProjekt " + ex.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        public List<Projekt> getProjekt()
+        {
+            List<Projekt> liPr = new List<Projekt>();
+
+            MySqlDataReader reader = null;
+
+            try
+            {
+                MySqlCommand com = conn.CreateCommand();
+                conn.Open();
+                com.CommandText = "SELECT * FROM projekt;";
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    liPr.Add(
+                        new Projekt(
+                            reader.GetInt32(0),
+                            reader.IsDBNull(1) ? "" : reader.GetString(1)
+                            )
+                        );
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("getProjekt " + ex.Message);
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                    conn.Close();
+                }
+
+            }
+
+            return liPr;
+        }
+
+        //Maproj
+
+        public List<MaProj> getMaproj(int manr)
+        {
+            List<MaProj> liMaProj = new List<MaProj>();
+
+            MySqlDataReader reader = null;
+
+            try
+            {
+                MySqlCommand com = conn.CreateCommand();
+                conn.Open();
+                com.CommandText = "SELECT * FROM mapro " +
+                                  "WHERE mpmanr = " + manr + ";";
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    liMaProj.Add(
+                        new MaProj(
+                            reader.GetInt32(0),
+                            reader.GetInt32(1)
+                            )
+                        );
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("getMaproj " + ex.Message);
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                    conn.Close();
+                }
+
+            }
+
+            return liMaProj ;
+        }
+
+        public void saveMaProj(MaProj mp)
+        {
+            try
+            {
+                conn.Open();
+
+                MySqlCommand cmd = conn.CreateCommand();
+
+                cmd.CommandText = string.Format("INSERT INTO MaPro " +
+                                                    "VALUES( {0}, {1});",
+                                                    mp.MaNr1, mp.ProjNr1);
+
+                cmd.ExecuteNonQuery();
+                
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("saveMaproj " + ex.Message);
+            }
+            finally
+            {
+                if (conn != null)
+                {
+                    conn.Close();
+                }
+            }
+        }
+
+        //Beteiligung
+
+        public List<MaProj> getBtg(int mpr)
+        {
+            List<MaProj> liMaProj = new List<MaProj>();
+
+            MySqlDataReader reader = null;
+
+            try
+            {
+                MySqlCommand com = conn.CreateCommand();
+                conn.Open();
+                com.CommandText = "SELECT * FROM mapro " +
+                                  "WHERE mpprojnr = " + mpr + ";";
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    liMaProj.Add(
+                        new MaProj(
+                            reader.GetInt32(0),
+                            reader.GetInt32(1)
+                            )
+                        );
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("getBtg " + ex.Message);
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                    conn.Close();
+                }
+
+            }
+
+            return liMaProj;
+        }
     }
 }

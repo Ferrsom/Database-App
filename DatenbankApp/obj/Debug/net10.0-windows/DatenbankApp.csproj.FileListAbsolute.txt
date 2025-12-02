@@ -28,3 +28,4 @@ C:\Users\Da.Melchor\C# 2\DatenbankApp\DatenbankApp\bin\Debug\net10.0-windows\run
 C:\Users\Da.Melchor\C# 2\DatenbankApp\DatenbankApp\bin\Debug\net10.0-windows\runtimes\win-x64\native\krbcc64.dll
 C:\Users\Da.Melchor\C# 2\DatenbankApp\DatenbankApp\obj\Debug\net10.0-windows\DatenbankApp.csproj.AssemblyReference.cache
 C:\Users\Da.Melchor\C# 2\DatenbankApp\DatenbankApp\obj\Debug\net10.0-windows\Datenban.35300138.Up2Date
+C:\Users\Da.Melchor\C# 2\DatenbankApp\DatenbankApp\obj\Debug\net10.0-windows\DatenbankApp.sourcelink.json

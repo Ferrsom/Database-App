@@ -24,6 +24,10 @@ namespace DatenbankApp
             MaVorname = vn;
             MaAbtNr = anr;
         }
-        
+
+        public string toCSV()
+        {
+            return string.Format("{0};{1};{2};{3};", MaNr1, MaName1, MaVorname1, MaAbtNr1);
+        }
     }
 }
