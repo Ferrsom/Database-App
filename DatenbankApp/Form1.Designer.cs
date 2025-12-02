@@ -30,6 +30,7 @@
         {
             tabControl1 = new TabControl();
             tabPage1 = new TabPage();
+            btn_imp = new Button();
             btn_csv = new Button();
             pbMitarb = new PictureBox();
             groupBox1 = new GroupBox();
@@ -98,6 +99,7 @@
             // 
             // tabPage1
             // 
+            tabPage1.Controls.Add(btn_imp);
             tabPage1.Controls.Add(btn_csv);
             tabPage1.Controls.Add(pbMitarb);
             tabPage1.Controls.Add(groupBox1);
@@ -120,13 +122,23 @@
             tabPage1.Text = "Mitarbeiter";
             tabPage1.UseVisualStyleBackColor = true;
             // 
+            // btn_imp
+            // 
+            btn_imp.Location = new Point(598, 182);
+            btn_imp.Name = "btn_imp";
+            btn_imp.Size = new Size(78, 43);
+            btn_imp.TabIndex = 14;
+            btn_imp.Text = "CSV Import";
+            btn_imp.UseVisualStyleBackColor = true;
+            btn_imp.Click += btn_imp_Click;
+            // 
             // btn_csv
             // 
-            btn_csv.Location = new Point(644, 164);
+            btn_csv.Location = new Point(471, 182);
             btn_csv.Name = "btn_csv";
-            btn_csv.Size = new Size(52, 41);
+            btn_csv.Size = new Size(92, 41);
             btn_csv.TabIndex = 13;
-            btn_csv.Text = "CVS Export";
+            btn_csv.Text = "CSV Export";
             btn_csv.UseVisualStyleBackColor = true;
             btn_csv.Click += btn_csv_Click;
             // 
@@ -206,7 +218,7 @@
             // 
             // btn_del
             // 
-            btn_del.Location = new Point(462, 177);
+            btn_del.Location = new Point(489, 140);
             btn_del.Name = "btn_del";
             btn_del.Size = new Size(159, 28);
             btn_del.TabIndex = 8;
@@ -227,7 +239,7 @@
             // li_mitab
             // 
             li_mitab.FormattingEnabled = true;
-            li_mitab.Location = new Point(476, 24);
+            li_mitab.Location = new Point(476, 10);
             li_mitab.Name = "li_mitab";
             li_mitab.Size = new Size(204, 124);
             li_mitab.TabIndex = 6;
@@ -591,5 +603,6 @@
         private DataGridViewTextBoxColumn MA_Vorname;
         private DataGridViewTextBoxColumn MA_Abteilung;
         private DataGridViewTextBoxColumn MAinProjekt;
+        private Button btn_imp;
     }
 }

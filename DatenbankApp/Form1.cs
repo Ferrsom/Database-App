@@ -38,7 +38,7 @@ namespace DatenbankApp
             cb_Abteilung.Text = "";
             cb_Abteilung.SelectedIndex = -1;
         }
-        
+
         //Bild
 
         private void bildAnzeigen(int nr)
@@ -71,7 +71,7 @@ namespace DatenbankApp
             clearBoxes();
         }
 
-        
+
 
         private void btn_spch_Click(object sender, EventArgs e)
         {
@@ -269,25 +269,6 @@ namespace DatenbankApp
             }
         }
 
-        private void btn_csv_Click(object sender, EventArgs e)
-        {
-            FileStream fs = new FileStream(bildPfad + "ma.csv", FileMode.Create, FileAccess.Write);
-            StreamWriter sw = new StreamWriter(fs);
-
-            //eigentlich try-catch hier
-
-            foreach (Mitarbeiter ma in liMa)
-            {
-                sw.WriteLine(ma.toCSV());
-            }
-
-            sw.Close();
-            fs.Close();
-
-            MessageBox.Show("Datei " + bildPfad + "ma.csv erzeugt.", "Moin",
-                            MessageBoxButtons.OK, MessageBoxIcon.Information);
-        }
-
         //Grid
 
         private void fillGrid()
@@ -298,7 +279,7 @@ namespace DatenbankApp
             {
                 string s = liAb.Find(x => x.AbtNr1 == mi.MaAbtNr1) == null ? "" :
                            liAb.Find(x => x.AbtNr1 == mi.MaAbtNr1).AbtName1;
-                
+
                 dgv_usicht.Rows.Add(mi.MaName1, mi.MaVorname1, s);
 
                 liMaProj = db.getMaproj(mi.MaNr1);
@@ -322,6 +303,55 @@ namespace DatenbankApp
                 li_mitab.SelectedIndex = index;
                 //tabControl1.TabPages[0].Show(); wollen wir nicht
             }
+        }
+
+        //CSV
+
+        private void btn_csv_Click(object sender, EventArgs e)
+        {
+            FileStream fs = new FileStream(bildPfad + "mitarbeiter.csv", FileMode.Create, FileAccess.Write);
+            StreamWriter sw = new StreamWriter(fs);
+
+            //eigentlich try-catch hier
+
+            foreach (Mitarbeiter ma in liMa)
+            {
+                sw.WriteLine(ma.toCSV());
+            }
+
+            sw.Close();
+            fs.Close();
+
+            MessageBox.Show("Datei " + bildPfad + "ma.csv erzeugt.", "Moin",
+                            MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
+        private void btn_imp_Click(object sender, EventArgs e)
+        {
+            string s;
+
+            if (File.Exists(bildPfad + "mitarbeiter.csv"))
+            {
+                FileStream stream = new FileStream(bildPfad + "mitarbeiter.csv",
+                                                   FileMode.Open,
+                                                   FileAccess.Read);
+
+                StreamReader reader = new StreamReader(stream);
+
+                while (reader.Peek() != -1)
+                {
+                    s = reader.ReadLine();
+                    string[] arr = s.Split(';');
+                    Mitarbeiter ma = new Mitarbeiter(0, arr[1], arr[2], int.Parse(arr[3]));
+
+                    db.saveMitarbeiter(ma);
+
+                }
+                reader.Close();
+                stream.Close();
+            }
+
+            dispMitarbeiter();
         }
     }
 }
