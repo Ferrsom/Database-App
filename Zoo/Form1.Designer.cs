@@ -56,6 +56,9 @@
             btnTaA = new Button();
             lbTa = new ListBox();
             tabTi = new TabPage();
+            rbTIfue = new RadioButton();
+            rbTIti = new RadioButton();
+            btnCsv = new Button();
             gbTIFU = new GroupBox();
             label18 = new Label();
             tbTIFUmen = new TextBox();
@@ -385,6 +388,9 @@
             // 
             // tabTi
             // 
+            tabTi.Controls.Add(rbTIfue);
+            tabTi.Controls.Add(rbTIti);
+            tabTi.Controls.Add(btnCsv);
             tabTi.Controls.Add(gbTIFU);
             tabTi.Controls.Add(tbTiGeb);
             tabTi.Controls.Add(dtpTiGeb);
@@ -408,6 +414,38 @@
             tabTi.TabIndex = 3;
             tabTi.Text = "Tiere";
             tabTi.UseVisualStyleBackColor = true;
+            // 
+            // rbTIfue
+            // 
+            rbTIfue.AutoSize = true;
+            rbTIfue.Location = new Point(273, 403);
+            rbTIfue.Name = "rbTIfue";
+            rbTIfue.Size = new Size(128, 24);
+            rbTIfue.TabIndex = 20;
+            rbTIfue.TabStop = true;
+            rbTIfue.Text = "Fütterungsplan";
+            rbTIfue.UseVisualStyleBackColor = true;
+            // 
+            // rbTIti
+            // 
+            rbTIti.AutoSize = true;
+            rbTIti.Location = new Point(273, 379);
+            rbTIti.Name = "rbTIti";
+            rbTIti.Size = new Size(63, 24);
+            rbTIti.TabIndex = 19;
+            rbTIti.TabStop = true;
+            rbTIti.Text = "Tiere";
+            rbTIti.UseVisualStyleBackColor = true;
+            // 
+            // btnCsv
+            // 
+            btnCsv.Location = new Point(407, 386);
+            btnCsv.Name = "btnCsv";
+            btnCsv.Size = new Size(96, 39);
+            btnCsv.TabIndex = 18;
+            btnCsv.Text = "CSV export";
+            btnCsv.UseVisualStyleBackColor = true;
+            btnCsv.Click += btnCsv_Click;
             // 
             // gbTIFU
             // 
@@ -516,7 +554,7 @@
             // dtpTiGeb
             // 
             dtpTiGeb.Format = DateTimePickerFormat.Short;
-            dtpTiGeb.Location = new Point(280, 382);
+            dtpTiGeb.Location = new Point(175, 289);
             dtpTiGeb.Name = "dtpTiGeb";
             dtpTiGeb.Size = new Size(191, 27);
             dtpTiGeb.TabIndex = 15;
@@ -933,5 +971,8 @@
         private Label label18;
         private TextBox tbTIFUmen;
         private PictureBox pbUb;
+        private RadioButton rbTIfue;
+        private RadioButton rbTIti;
+        private Button btnCsv;
     }
 }

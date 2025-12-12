@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Org.BouncyCastle.Asn1.Cmp;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -30,6 +31,11 @@ namespace Zoo
             Geburtsdatum = dt;
             TierartID = tid;
             GehegeID = gid;
+        }
+
+        public string tiToCSV()
+        {
+            return string.Format("{0};{1};{2};{3};", tierID, Name, Gewicht, Geburtsdatum);
         }
     }
 }

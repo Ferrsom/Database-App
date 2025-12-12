@@ -11,7 +11,7 @@ namespace Zoo
         private List<Futter> liFu = new List<Futter>();
         private List<Füttern> liFue = new List<Füttern>();
 
-        private const string bildPfad = "C:\\Users\\tn\\Desktop\\Projekte\\Zoo\\Assets\\";
+        private const string pfad = "C:\\Users\\tn\\Desktop\\Projekte\\Zoo\\Assets\\";
 
         public Form1()
         {
@@ -69,7 +69,7 @@ namespace Zoo
 
         private void bildAnzeigen(int nr)
         {
-            string bild = bildPfad + nr.ToString() + ".png";
+            string bild = pfad + nr.ToString() + ".png";
             pbUb.Image = null;
 
             if (File.Exists(bild))
@@ -463,5 +463,45 @@ namespace Zoo
             tbTIFUmen.Text = "";
         }
 
+        //CSV
+
+        private void btnCsv_Click(object sender, EventArgs e)
+        {
+            if (rbTIti.Checked)
+            {
+                FileStream fs = new FileStream(pfad + "tiere.csv", FileMode.Create, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+
+                foreach (Tiere ti in liTi)
+                {
+                    sw.WriteLine(ti.tiToCSV());
+                }
+
+                sw.Close();
+                fs.Close();
+
+                MessageBox.Show("Datei " + pfad + "tiere.csv erzeugt.", ":)",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+
+            if (rbTIfue.Checked)
+            {
+                FileStream fs = new FileStream(pfad + "fütterungsplan.csv", FileMode.Create, FileAccess.Write);
+                StreamWriter sw = new StreamWriter(fs);
+
+                liFue = db.gridFüttern();
+
+                foreach (Füttern fue in liFue)
+                {
+                    sw.WriteLine(fue.fueToCSV());
+                }
+
+                sw.Close();
+                fs.Close();
+
+                MessageBox.Show("Datei " + pfad + "fütterungsplan.csv erzeugt.", ":)",
+                                MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
     }
 }

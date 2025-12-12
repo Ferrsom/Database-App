@@ -607,6 +607,47 @@ namespace Zoo
             return liFue;
         }
 
+        public List<Füttern> gridFüttern()
+        {
+            List<Füttern> liFue = new List<Füttern>();
+            MySqlDataReader reader = null;
+
+            try
+            {
+                MySqlCommand com = conn.CreateCommand();
+                conn.Open();
+                com.CommandText = "SELECT * FROM füttern;";
+                reader = com.ExecuteReader();
+                while (reader.Read())
+                {
+                    liFue.Add(
+                        new Füttern(
+                            reader.GetInt32(0),
+                            reader.IsDBNull(1) ? "" : reader.GetString(1),
+                            reader.IsDBNull(2) ? "" : reader.GetString(2),
+                            reader.IsDBNull(3) ? -1 : reader.GetInt32(3),
+                            reader.IsDBNull(4) ? -1 : reader.GetInt32(4)
+                            )
+                        );
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("gridFüttern " + ex.Message);
+            }
+            finally
+            {
+                if (reader != null)
+                {
+                    reader.Close();
+                    conn.Close();
+                }
+
+            }
+
+            return liFue;
+        } //for the csv export
+
         public void saveFüttern(Füttern fue)
         {
             try

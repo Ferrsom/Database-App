@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 
 namespace Zoo
 {
@@ -27,6 +28,11 @@ namespace Zoo
             Uhrzeit = z;
             TierID = tid;
             FutterID = fid;
+        }
+
+        public string fueToCSV()
+        {
+            return string.Format("{0};{1};{2};{3};", TierID, FutterID, Menge, Uhrzeit);
         }
     }
 }
